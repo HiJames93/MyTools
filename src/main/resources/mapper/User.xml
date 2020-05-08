@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.james.crm_int.dao.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.james.crm_int.entity.User">
+        <id column="id" property="id" />
+        <result column="telephone" property="telephone" />
+        <result column="PASSWORD" property="password" />
+        <result column="realname" property="realname" />
+        <result column="birthday" property="birthday" />
+        <result column="headimg" property="headimg" />
+        <result column="available" property="available" />
+        <result column="did" property="did" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, telephone, PASSWORD, realname, birthday, headimg, available, did
+    </sql>
+
+</mapper>
