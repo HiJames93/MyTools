@@ -82,7 +82,7 @@
 			</button>
 		</div>
 		<div id="loginfoRowBar" style="display: none";>
-			<button type="button" id="del" class="layui-btn layui-btn-sm layui-btn-danger">
+			<button type="button" id="one_del" class="layui-btn layui-btn-sm layui-btn-danger">
 				<span class="layui-icon layui-icon-delete"></span>单行删除
 			</button>
 		</div>
@@ -138,29 +138,22 @@
 				});
 				return false;
 			});
-            /*//批量删除
-            $("#batchDelete").click(function () {
-                var checkStatus = table.checkStatus('loginfoTable');
-                var data = checkStatus.data;
-                var uIds = [];
-                if (data.length > 0){
-                    for (var i in data){
-                        uIds.push(data[i].id);
-                    }
-					console.log(uIds);
-                    layer.confirm('确定删除选中用户？',{icon: 3, title: '提示信息'}, function (index) {
-                    	console.log(uIds)
-                        $.post("/logInfo/batchDeleteLoginfo",uIds,function (res) {
-							if (res.code == 200){
-								tableIns.reload();
-							}
-							layer.msg(res.msg);
-						});
-                    })
-                }else {
-                    layer.msg("请选择需要删除的用户");
-                }
-            });*/
+
+			// 单项删除
+			$("#one_del").click(function () {
+				var checkStatus = table.checkStatus('loginfoTable');
+				var data = checkStatus.data;
+				layer.confirm('你确定要删除这些数据吗？',{icon:3, title:'提示'},function (index) {
+					$.post("/logInfo/deleteLoginfo",{id:data.id},function (res) {
+						if (res.code == 200){
+							tableIns.reload();
+						}
+						layer.msg(res.msg);
+					});
+					layer.close(index);
+				})
+			});
+			// 批量删除
 			$("#batchDelete").click(function () {
 				var checkStatus = table.checkStatus('loginfoTable');
 				var data = checkStatus.data;
@@ -183,6 +176,8 @@
 							layer.msg(res.msg);
 						});
 					})
+				}else {
+					layer.msg("请选择需要删除的数据");
 				}
 			});
 

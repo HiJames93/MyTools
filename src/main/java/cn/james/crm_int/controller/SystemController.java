@@ -3,19 +3,25 @@ package cn.james.crm_int.controller;
 import cn.james.crm_int.common.ActiverUser;
 import cn.james.crm_int.common.ResultObject;
 import cn.james.crm_int.common.WebUtils;
+import cn.james.crm_int.entity.Dept;
+import cn.james.crm_int.entity.LogInfo;
+import cn.james.crm_int.entity.User;
+import cn.james.crm_int.service.DeptService;
+import cn.james.crm_int.service.LogInfoService;
 import cn.james.crm_int.utils.loginfo.IpUtil;
-import cn.james.crm_int.utils.loginfo.LogUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * 专门搞ajax的地方。其他跳转滚一边去！
@@ -26,10 +32,13 @@ public class SystemController {
 
     //获取ip
     @RequestMapping(value = "/getIp", method = RequestMethod.POST)
-    @ResponseBody
     public String getIp(HttpServletRequest request) {
         return IpUtil.getIpAddr(request);
     }
+
+    @Autowired
+    private LogInfoService logInfoService;
+    private DeptService deptService;
 
     @RequestMapping("toLogin")
     public ResultObject toLogin(String realName, String pwd, HttpServletRequest request) {
@@ -41,14 +50,23 @@ public class SystemController {
             WebUtils.getSession().setAttribute("user", activerUser.getUser());
 
 
-            //获取ip
-            String LoginIP = IpUtil.getIpAddr(request);
             // 写入日志
-            LogUtils.insertLog(activerUser.getUser(),LoginIP);
+
+            LogInfo entity=new LogInfo();
+//            QueryWrapper<Dept> queryWrapper = new QueryWrapper();
+//            // 获取did对应的name
+//            queryWrapper.eq(activerUser.getUser().getDid()+"",activerUser.getUser().getDid()+"");
+//            Dept dept = deptService.getOne(queryWrapper);
+            //设置格式
+            entity.setLoginName(activerUser.getUser().getRealname()+"-"+activerUser.getUser().getDid());
+            entity.setLoginIp(WebUtils.getRequest().getRemoteAddr());
+            entity.setLoginTime(new Date());
+            logInfoService.save(entity);
+
 
             return ResultObject.LOGIN_SUCCESS;
         } catch (AuthenticationException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return ResultObject.LOGIN_ERR_PASS;
         }
     }

@@ -50,7 +50,7 @@ public class LogInfo extends Model<LogInfo> {
     /**
      * 登陆时间
      */
-    private String loginTime;
+    private Date loginTime;
 
     /**
      * 日志记录
