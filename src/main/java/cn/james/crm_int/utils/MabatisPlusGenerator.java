@@ -20,21 +20,21 @@ import java.util.*;
 public class MabatisPlusGenerator {
 
     //生成文件所在项目路径
-    private static String baseProjectPath = "/home/fish/IdeaProjects/J2EE/crm_int";
+    private static String baseProjectPath = "/home/fish/IdeaProjects/J2EE/MyTools";
 
     //基本包名
     private static String basePackage="cn.james.crm_int";
     //作者
     private static String authorName="James";
     //要生成的表名
-    private static String[] tables= {"sys_logInfo"};
+    private static String[] tables= {"sys_notice"};
 
     //table前缀
     private static String prefix="sys_";
 
     //数据库配置四要素
     private static String driverName = "com.mysql.cj.jdbc.Driver";
-    private static String url = "jdbc:mysql://127.0.0.1:3306/crm_init?useUnicode=true&characterEncoding=utf8";
+    private static String url = "jdbc:mysql://127.0.0.1:3306/mytools?useUnicode=true&characterEncoding=utf8";
     private static String username = "root";
     private static String password = "glt123";
 

@@ -9,21 +9,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class LoginController {
 
+    // 登录
     @RequestMapping("login")
     public String Login(){
         return "login";
     }
 
+    // 首页
     @RequestMapping("index")
     public String Index(){
         return "sys/index";
     }
 
+    //后台首页
     @RequestMapping("main")
     public String toMain(){
         return "sys/main";
     }
 
+    //日志
     @RequestMapping("/sys/loginfo")
     public String toLoginfoManager(){
         return "sys/log/loginfo";
@@ -57,5 +61,11 @@ public class LoginController {
     @RequestMapping("userList")
     public String ShowUserList(){
         return "sys/user/userList";
+    }
+
+    // 公告
+    @RequestMapping("/sys/toNoticeManager")
+    public String toNoticeManager(){
+        return "sys/sysNotice/noticeInfo";
     }
 }

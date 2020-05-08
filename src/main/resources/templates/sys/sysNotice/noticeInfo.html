@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" >
 <head>
 	<meta charset="utf-8">
-	<title>日志管理--CRM通用模板_增强版</title>
+	<title>公告管理--CRM通用模板_增强版</title>
 	<meta name="renderer" content="webkit">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -22,19 +22,19 @@
 		<form action="" method="post" id="searchFrm" lay-filter="searchFrm" class="layui-form layui-form-pane">
 			<div class="layui-form-item">
 				<div class="layui-inline">
-					<label class="layui-form-label">登录ID</label>
+					<label class="layui-form-label">公告ID</label>
 					<div class="layui-input-inline">
 						<input type="text" name="loginID" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-inline">
-					<label class="layui-form-label">登录名称</label>
+					<label class="layui-form-label">公告标题</label>
 					<div class="layui-input-inline">
 						<input type="text" name="loginname" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-inline">
-					<label class="layui-form-label">登录IP</label>
+					<label class="layui-form-label">发布人</label>
 					<div class="layui-input-inline">
 						<input type="tel" name="loginip" autocomplete="off" class="layui-input">
 					</div>
@@ -49,13 +49,6 @@
 					<label class="layui-form-label">结束时间</label>
 					<div class="layui-input-inline">
 						<input type="tel" name="endTime" id="endTime" readonly="readonly" placeholder="yyyy-MM-dd HH:mm:ss" class="layui-input">
-					</div>
-				</div>
-				<!--异常日志-->
-				<div class="layui-inline">
-					<label class="layui-form-label">异常日志</label>
-					<div class="layui-input-inline">
-						<input type="tel" name="errorLoginfo" autocomplete="off" class="layui-input">
 					</div>
 				</div>
 			</div>
@@ -73,18 +66,26 @@
 	</blockquote>
 	<!-- 数据显示开始 -->
 	<div>
-		<table class="layui-hide" id="loginfoTable" lay-filter="loginfoTable">
+		<table class="layui-hide" id="noticeTable" lay-filter="noticeTable">
 
 		</table>
-		<div id="loginfoToolBar" style="display: none";>
+		<div id="noticeToolBar" style="display: none";>
+			<button type="button" id="add" class="layui-btn layui-btn-sm">
+				<span class="layui-icon layui-icon-add-1"></span>添加公告
+			</button>
 			<button type="button" id="batchDelete" class="layui-btn layui-btn-sm layui-btn-danger">
 				<span class="layui-icon layui-icon-delete"></span>批量删除
 			</button>
 		</div>
-		<div id="loginfoRowBar" style="display: none";>
-			<button type="button" id="one_del" class="layui-btn layui-btn-sm layui-btn-danger">
-				<span class="layui-icon layui-icon-delete"></span>单行删除
+		<div id="noticeRowBar" style="display: none";>
+			<button type="button" id="update" class="layui-btn layui-btn-sm layui-btn-danger">
+				<span class="layui-icon layui-icon-edit"></span>更新
+			</button><button type="button" id="one_del" class="layui-btn layui-btn-sm layui-btn-danger">
+				<span class="layui-icon layui-icon-delete"></span>删除
 			</button>
+			</button><button type="button" id="show" class="layui-btn layui-btn-sm layui-btn-danger">
+			<span class="layui-icon layui-icon-edit"></span>查看
+		</button>
 		</div>
 	</div>
 	<!-- 数据显示结束 -->
@@ -110,20 +111,19 @@
 
 			// 加载数据
 			var tableIns=table.render({
-				elem: '#loginfoTable'
-				,url:'/logInfo/loadAllLogInfo'
-				,toolbar: '#loginfoToolBar' //开启头部工具栏，并为其绑定左侧模板
-				,title: '用户登录日志数据表'
+				elem: '#noticeTable'
+				,url:'/sys/toNoticeManager'
+				,toolbar: '#noticeToolBar' //开启头部工具栏，并为其绑定左侧模板
+				,title: '公告数据表'
 				,height: 'full-180'
 				,page: true
 				,cols: [ [
 					{type: 'checkbox', fixed: 'left'}
-					,{field:'id', title:'访问者ID', align:'center'}
-					,{field:'loginName', title:'访问者名字', align:'center'}
-					,{field:'loginIp', title:'访问者IP', align:'center'}
-					,{field:'loginTime', title:'访问时间', align:'center'}
-					,{field:'logInfo', title:'异常访问日志', align:'center'}
-					,{fixed: 'right', title:'操作', toolbar: '#loginfoRowBar', align:'center'}
+					,{field:'id', title:'id', align:'center'}
+					,{field:'title', title:'标题', align:'center'}
+					,{field:'opername', title:'发布者', align:'center'}
+					,{field:'createtime', title:'发布时间', align:'center'}
+					,{fixed: 'right', title:'操作', toolbar: '#noticeRowBar', align:'center'}
 				] ]
 
 			});
@@ -139,12 +139,44 @@
 				return false;
 			});
 
-			// 单项删除
+			//监听事件
+			table.on('toolbar(noticeTable)', function(obj){
+				var checkStatus = table.checkStatus(obj.config.id);
+				switch(obj.event){
+					case 'add':
+						add();
+						break;
+					case 'update':
+						layer.msg('编辑');
+						break;
+				};
+			});
+			//添加公告
+			//更新公告
+			//查看公告
+			//监听事件
+			table.on('toolbar(noticeTable)', function(obj){
+				var checkStatus = table.checkStatus(obj.config.id);
+				switch(obj.event){
+					case 'one_del':
+						deleteInfo();
+						break;
+					case 'show':
+						add();
+						break;
+					case 'update':
+						layer.msg('编辑');
+						break;
+				};
+			});
+
+
+			/*// 单项删除
 			$("#one_del").click(function () {
-				var checkStatus = table.checkStatus('loginfoTable');
+				var checkStatus = table.checkStatus('noticeTable');
 				var data = checkStatus.data;
 				layer.confirm('你确定要删除这些数据吗？',{icon:3, title:'提示'},function (index) {
-					$.post("/logInfo/deleteLoginfo",{id:data.id},function (res) {
+					$.post("/notice/deletenotice",{id:data.id},function (res) {
 						if (res.code == 200){
 							tableIns.reload();
 						}
@@ -152,10 +184,10 @@
 					});
 					layer.close(index);
 				});
-			});
+			});*/
 			// 批量删除
 			$("#batchDelete").click(function () {
-				var checkStatus = table.checkStatus('loginfoTable');
+				var checkStatus = table.checkStatus('noticeTable');
 				var data = checkStatus.data;
 				var uIds = [];
 				if (data.length > 0) {
@@ -169,7 +201,7 @@
 								ids+="&ids="+item.id;
 							}
 						})
-						$.post("/logInfo/batchDeleteLoginfo",ids,function (res) {
+						$.post("/notice/batchDeletenotice",ids,function (res) {
 							if (res.code == 200){
 								tableIns.reload();
 							}
@@ -180,6 +212,19 @@
 					layer.msg("请选择需要删除的数据");
 				}
 			});
+
+			//删除
+			function deleteInfo(data) {
+				layer.confirm('你确定要删除这些数据吗？',{icon:3, title:'提示'},function (index) {
+					$.post("/notice/deletenotice",{id:data.id},function (res) {
+						if (res.code == 200){
+							tableIns.reload();
+						}
+						layer.msg(res.msg);
+					});
+					layer.close(index);
+				});
+			}
 
         });
 
