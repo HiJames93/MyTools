@@ -13,12 +13,14 @@ public class DataGridView {
     private Long count=0L;
     private Object data;
 
+    // 表格
     public DataGridView(Long count, Object data) {
         super();
         this.count = count;
         this.data = data;
     }
 
+    // 数据显示
     public DataGridView(Object data) {
         super();
         this.data = data;

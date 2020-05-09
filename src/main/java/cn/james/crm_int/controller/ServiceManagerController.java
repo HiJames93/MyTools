@@ -16,4 +16,9 @@ public class ServiceManagerController {
         return "sys/host/formatConversion";
     }
 
+    @RequestMapping("emailService")
+    public String EmailService(){
+        return "sys/host/emailService";
+    }
+
 }

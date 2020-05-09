@@ -8,50 +8,32 @@ layui.use(['form','layer','table','laytpl'],function(){
     //用户列表
     var tableIns = table.render({
         elem: '#userList',
-        url : '../../json/userList.json',
+        url : '/notice/loadAllNotice',
         cellMinWidth : 95,
         page : true,
         height : "full-125",
         limits : [10,15,20,25],
         limit : 20,
-        id : "userListTable",
+        id : "noticeTable",
         cols : [[
-            {type: "checkbox", fixed:"left", width:50},
-            {field: 'userName', title: '用户名', minWidth:100, align:"center"},
-            {field: 'userEmail', title: '用户邮箱', minWidth:200, align:'center',templet:function(d){
-                return '<a class="layui-blue" href="mailto:'+d.userEmail+'">'+d.userEmail+'</a>';
-            }},
-            {field: 'userSex', title: '用户性别', align:'center'},
-            {field: 'userStatus', title: '用户状态',  align:'center',templet:function(d){
-                return d.userStatus == "0" ? "正常使用" : "限制使用";
-            }},
-            {field: 'userGrade', title: '用户等级', align:'center',templet:function(d){
-                if(d.userGrade == "0"){
-                    return "注册会员";
-                }else if(d.userGrade == "1"){
-                    return "中级会员";
-                }else if(d.userGrade == "2"){
-                    return "高级会员";
-                }else if(d.userGrade == "3"){
-                    return "钻石会员";
-                }else if(d.userGrade == "4"){
-                    return "超级会员";
-                }
-            }},
-            {field: 'userEndTime', title: '最后登录时间', align:'center',minWidth:150},
-            {title: '操作', minWidth:175, templet:'#userListBar',fixed:"right",align:"center"}
+            {type: 'checkbox', fixed: 'left'}
+            ,{field:'id', title:'id', align:'center'}
+            ,{field:'title', title:'标题', align:'center'}
+            ,{field:'opername', title:'发布者', align:'center'}
+            ,{field:'createtime', title:'发布时间', align:'center'}
+            ,{title: '操作', minWidth:175, templet:'#userListBar',fixed:"right",align:"center"}
         ]]
     });
 
     //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
     $(".search_btn").on("click",function(){
         if($(".searchVal").val() != ''){
-            table.reload("newsListTable",{
+            table.reload("usersListTable",{
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
                 where: {
-                    key: $(".searchVal").val()  //搜索的关键字
+                    realname: $(".searchVal").val()  //搜索的关键字
                 }
             })
         }else{
@@ -59,12 +41,12 @@ layui.use(['form','layer','table','laytpl'],function(){
         }
     });
 
-    //添加用户
+    //修改公告
     function addUser(edit){
         var index = layui.layer.open({
-            title : "添加用户",
+            title : "修改公告",
             type : 2,
-            content : "addNotice.html",
+            content : "/sys/addNotice",
             success : function(layero, index){
                 var body = layui.layer.getChildFrame('body', index);
                 if(edit){
@@ -96,23 +78,29 @@ layui.use(['form','layer','table','laytpl'],function(){
 
     //批量删除
     $(".delAll_btn").click(function(){
-        var checkStatus = table.checkStatus('userListTable'),
-            data = checkStatus.data,
-            newsId = [];
-        if(data.length > 0) {
-            for (var i in data) {
-                newsId.push(data[i].newsId);
-            }
-            layer.confirm('确定删除选中的用户？', {icon: 3, title: '提示信息'}, function (index) {
-                // $.get("删除文章接口",{
-                //     newsId : newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                tableIns.reload();
-                layer.close(index);
-                // })
+        var checkStatus = table.checkStatus('noticeTable');
+        var data = checkStatus.data;
+        var uIds = [];
+        if (data.length > 0) {
+            layer.confirm('你确定要删除这些数据吗？',{icon:3, title:'提示'},function (index) {
+                var data=checkStatus.data;
+                var ids="";
+                $.each(data, function (index,item) {
+                    if (index==0){
+                        ids+="ids="+item.id;
+                    }else {
+                        ids+="&ids="+item.id;
+                    }
+                })
+                $.post("/logInfo/batchDeleteLoginfo",ids,function (res) {
+                    if (res.code == 200){
+                        tableIns.reload();
+                    }
+                    layer.msg(res.msg);
+                });
             })
-        }else{
-            layer.msg("请选择需要删除的用户");
+        }else {
+            layer.msg("请选择需要删除的数据");
         }
     })
 
@@ -145,12 +133,23 @@ layui.use(['form','layer','table','laytpl'],function(){
             });
         }else if(layEvent === 'del'){ //删除
             layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
-                // $.get("删除文章接口",{
-                //     newsId : data.newsId  //将需要删除的newsId作为参数传入
-                // },function(data){
-                    tableIns.reload();
-                    layer.close(index);
-                // })
+                $.post("/logInfo/deleteLoginfo",{id:data.id},function (res) {
+                    if (res.code == 200){
+                        tableIns.reload();
+                    }
+                    layer.msg(res.msg);
+                });
+                layer.close(index);
+            });
+        }else if(layEvent === 'show'){ //删除
+            layer.confirm('确定删除此用户？',{icon:3, title:'提示信息'},function(index){
+                $.post("/logInfo/deleteLoginfo",{id:data.id},function (res) {
+                    if (res.code == 200){
+                        tableIns.reload();
+                    }
+                    layer.msg(res.msg);
+                });
+                layer.close(index);
             });
         }
     });

@@ -63,9 +63,19 @@ public class LoginController {
         return "sys/user/userList";
     }
 
-    // 公告
+    /**
+     * 公告
+     * @return
+     */
+    // 显示
     @RequestMapping("/sys/toNoticeManager")
     public String toNoticeManager(){
         return "sys/sysNotice/noticeInfo";
+    }
+
+    // 添加
+    @RequestMapping("/sys/addNotice")
+    public String addNotice(){
+        return "sys/sysNotice/addNotice";
     }
 }

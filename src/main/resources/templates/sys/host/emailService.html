@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<meta charset="utf-8">
+	<title>首页--主机服务</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all" />
+	<link rel="stylesheet" th:href="@{/css/public.css}" media="all" />
+</head>
+<body>
+<blockquote class="layui-elem-quote layui-text">
+	邮件服务专区！邮件轰炸在轰炸服务中！
+</blockquote>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+	<legend>邮件发送</legend>
+</fieldset>
+
+<form class="layui-form" action="">
+	<div class="layui-form-item">
+		<label class="layui-form-label">发送方</label>
+		<div class="layui-input-block">
+			<input type="text" name="username" lay-verify="email" lay-reqtext="IP地址是必填项，岂能为空？" placeholder="请输入" autocomplete="off" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">接收方</label>
+			<div class="layui-input-inline">
+				<input type="tel" name="url" lay-verify="email" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-inline">
+			<label class="layui-form-label">密码</label>
+			<div class="layui-input-inline">
+				<input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+			</div>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">发送模式</label>
+		<div class="layui-input-block">
+			<select name="interest" lay-filter="aihao">
+				<option value=""></option>
+				<option value="0" selected="">抄送</option>
+				<option value="1">密送</option>
+				<option value="2">发送方式</option>
+				<option value="3">发送方式</option>
+				<option value="4">发送方式</option>
+			</select>
+		</div>
+	</div>
+
+
+		<div class="layui-inline">
+			<label class="layui-form-label">搜索选择框</label>
+			<div class="layui-input-inline">
+				<select name="modules" lay-verify="required" lay-search="">
+					<option value="">直接选择或搜索选择</option>
+					<option value="1">layer</option>
+					<option value="2">form</option>
+					<option value="3">layim</option>
+					<option value="4">element</option>
+					<option value="5">laytpl</option>
+					<option value="6">upload</option>
+					<option value="7">laydate</option>
+					<option value="8">laypage</option>
+					<option value="9">flow</option>
+					<option value="10">util</option>
+					<option value="11">code</option>
+					<option value="12">tree</option>
+					<option value="13">layedit</option>
+					<option value="14">nav</option>
+					<option value="15">tab</option>
+					<option value="16">table</option>
+					<option value="17">select</option>
+					<option value="18">checkbox</option>
+					<option value="19">switch</option>
+					<option value="20">radio</option>
+				</select>
+			</div>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">线程数</label>
+		<div class="layui-input-inline">
+			<select name="quiz1">
+				<option value="">请选择</option>
+				<option value="10" selected="">10</option>
+				<option value="20">20</option>
+				<option value="30">30</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">扫描器</label>
+		<div class="layui-input-block">
+			<input type="checkbox" name="like[write]" title="NMAP">
+			<input type="checkbox" name="like[read]" title="Scapy" checked="">
+			<input type="checkbox" name="like[game]" title="系统自带">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">自定义进程数</label>
+		<div class="layui-input-block">
+			<input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">不使用多线程</label>
+		<div class="layui-input-block">
+			<input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">模式</label>
+		<div class="layui-input-block">
+			<input type="radio" name="sex" value="simple" title="简单" checked="">
+			<input type="radio" name="sex" value="DIY" title="自定义">
+		</div>
+	</div>
+	<div class="layui-form-item layui-form-text">
+      <label class="layui-form-label">记事本</label>
+      <div class="layui-input-block">
+        <textarea class="layui-textarea layui-hide" name="content" lay-verify="content" id="LAY_demo_editor"></textarea>
+      </div>
+    </div>
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即查询</button>
+			<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		</div>
+	</div>
+</form>
+
+<div>
+	<table class="layui-hide" id="loginfoTable" lay-filter="loginfoTable">
+
+	</table>
+	<div id="loginfoToolBar" style="display: none";>
+		<button type="button" id="batchDelete" class="layui-btn layui-btn-sm layui-btn-danger">
+			<span class="layui-icon layui-icon-delete"></span>批量删除
+		</button>
+	</div>
+	<div id="loginfoRowBar" style="display: none";>
+		<button type="button" id="del" class="layui-btn layui-btn-sm layui-btn-danger">
+			<span class="layui-icon layui-icon-delete"></span>单行删除
+		</button>
+	</div>
+</div>
+<!-- 数据显示结束 -->
+<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+
+<!-- 条件填写 -->
+
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function(){
+		var form = layui.form
+				,layer = layui.layer
+				,layedit = layui.layedit
+				,laydate = layui.laydate;
+
+		//日期
+		laydate.render({
+			elem: '#date'
+		});
+		laydate.render({
+			elem: '#date1'
+		});
+
+		//创建一个编辑器
+		var editIndex = layedit.build('LAY_demo_editor');
+
+		//自定义验证规则
+		form.verify({
+			title: function(value){
+				if(value.length < 5){
+					return '标题至少得5个字符啊';
+				}
+			}
+			,pass: [
+				/^[\S]{6,12}$/
+				,'密码必须6到12位，且不能出现空格'
+			]
+			,content: function(value){
+				layedit.sync(editIndex);
+			}
+		});
+
+		//监听指定开关
+		form.on('switch(switchTest)', function(data){
+			layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+				offset: '6px'
+			});
+			layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+		});
+
+		//监听提交
+		form.on('submit(demo1)', function(data){
+			layer.alert(JSON.stringify(data.field), {
+				title: '最终的提交信息'
+			})
+			return false;
+		});
+
+		//表单赋值
+		layui.$('#LAY-component-form-setval').on('click', function(){
+			form.val('example', {
+				"username": "贤心" // "name": "value"
+				,"password": "123456"
+				,"interest": 1
+				,"like[write]": true //复选框选中状态
+				,"close": true //开关状态
+				,"sex": "女"
+				,"desc": "我爱 layui"
+			});
+		});
+
+		//表单取值
+		layui.$('#LAY-component-form-getval').on('click', function(){
+			var data = form.val('example');
+			alert(JSON.stringify(data));
+		});
+
+	});
+</script>
+<script type="text/html" id="toolbarDemo">
+	<div class="layui-btn-container">
+		<button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+		<button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+		<button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+	</div>
+</script>
+
+<script type="text/html" id="barDemo">
+	<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<!-- 数据显示 -->
+
+<script type="text/javascript">
+	layui.use(['jquery','form', 'table','layer', 'laydate'], function(){
+		var $ = layui.jquery;
+		var form = layui.form;
+		var table = layui.table;
+		var layer = layui.layer;
+		var laydate = layui.laydate;
+
+		// 初始化日期
+		laydate.render({
+			elem: '#startTime',
+			type: 'datetime'
+		});
+		laydate.render({
+			elem: '#endTime',
+			type: 'datetime'
+		});
+
+		// 加载数据
+		var tableIns=table.render({
+			elem: '#loginfoTable'
+			,url:'/logInfo/loadAllLogInfo'
+			,toolbar: '#loginfoToolBar' //开启头部工具栏，并为其绑定左侧模板
+			,title: '用户登录日志数据表'
+			,height: 'full-180'
+			,page: true
+			,cols: [ [
+				{type: 'checkbox', fixed: 'left'}
+				,{field:'id', title:'IP', align:'center'}
+				,{field:'loginName', title:'访问者名字', align:'center'}
+				,{field:'loginIp', title:'访问者IP', align:'center'}
+				,{field:'loginTime', title:'访问时间', align:'center'}
+				,{field:'logInfo', title:'异常访问日志', align:'center'}
+				,{fixed: 'right', title:'操作', toolbar: '#loginfoRowBar', align:'center'}
+			] ]
+
+		});
+
+		// 模糊查询
+		form.on("submit(doSearch)",function (data) {
+			tableIns.reload({
+				where:data.field,
+				page:{
+					curr:1
+				}
+			});
+			return false;
+		});
+		//批量删除
+		$("#batchDelete").click(function () {
+			var checkStatus = table.checkStatus('loginfoTable');
+			var data = checkStatus.data;
+			var uIds = [];
+			if (data.length > 0){
+				for (var i in data){
+					uIds.push(data[i].id);
+				}
+				layer.confirm('确定删除选中用户？',{icon: 3, title: '提示信息'}, function (index) {
+					$.ajax({
+						url:"/logInfo/batchDeleteLoginfo",
+						type:"POST",
+						data:{ids:uIds},
+						dataType:"json",
+						success: function (res) {
+							if (res.code==200){
+								layer.msg(res.msg);
+								tableIns.reload();
+							}
+						}
+					});
+				})
+			}else {
+				layer.msg("请选择需要删除的用户");
+			}
+		});
+
+	});
+
+
+</script>
+</body>
+</html>

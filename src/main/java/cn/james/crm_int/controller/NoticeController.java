@@ -2,7 +2,10 @@ package cn.james.crm_int.controller;
 
 
 import cn.james.crm_int.common.DataGridView;
+import cn.james.crm_int.common.ResultObject;
+import cn.james.crm_int.common.WebUtils;
 import cn.james.crm_int.entity.Notice;
+import cn.james.crm_int.entity.User;
 import cn.james.crm_int.service.NoticeService;
 import cn.james.crm_int.vo.NoticeVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -13,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 /**
  * <p>
@@ -45,5 +50,21 @@ public class NoticeController {
         queryWrapper.orderByDesc("createtime");
         this.noticeService.page(page, queryWrapper);
         return new DataGridView(page.getTotal(), page.getRecords());
+    }
+
+
+    // 添加公告
+    @RequestMapping("addNotice")
+    public ResultObject addNotice(NoticeVo noticeVo){
+        try{
+            noticeVo.setCreatetime(new Date());
+            User user = (User) WebUtils.getSession().getAttribute("user");
+            noticeVo.setOpername(user.getRealname());
+            this.noticeService.save(noticeVo);
+            return ResultObject.ADD_SUCCESS;
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResultObject.ADD_ERR;
+        }
     }
 }
