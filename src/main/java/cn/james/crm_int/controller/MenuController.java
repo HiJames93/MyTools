@@ -67,4 +67,7 @@ public class MenuController {
         List<TreeNode> list1= TreeNodeBuilder.buid(treeNodes, 1);
         return new DataGridView(list1);
     }
+
+    /*************************** 菜单开始 ***************************/
+    /*************************** 菜单结束 ***************************/
 }

@@ -78,4 +78,12 @@ public class LoginController {
     public String addNotice(){
         return "sys/sysNotice/addNotice";
     }
+
+    /**
+     * 图标管理
+     */
+    @RequestMapping("/sys/showIcon")
+    public String showIcon(){
+        return "sys/icons";
+    }
 }

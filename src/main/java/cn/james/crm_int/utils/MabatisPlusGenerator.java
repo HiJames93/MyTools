@@ -27,7 +27,7 @@ public class MabatisPlusGenerator {
     //作者
     private static String authorName="James";
     //要生成的表名
-    private static String[] tables= {"sys_notice"};
+    private static String[] tables= {"sys_dept"};
 
     //table前缀
     private static String prefix="sys_";

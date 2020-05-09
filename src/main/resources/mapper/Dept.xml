@@ -5,12 +5,19 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.james.crm_int.entity.Dept">
         <id column="id" property="id" />
-        <result column="dname" property="dname" />
+        <result column="title" property="title" />
+        <result column="pid" property="pid" />
+        <result column="open" property="open" />
+        <result column="remark" property="remark" />
+        <result column="available" property="available" />
+        <result column="ordernum" property="ordernum" />
+        <result column="createtime" property="createtime" />
+        <result column="address" property="address" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, dname
+        id, title, pid, open, remark, available, ordernum, createtime, address
     </sql>
 
 </mapper>

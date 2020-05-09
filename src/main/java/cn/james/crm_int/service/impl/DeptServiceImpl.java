@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author James
- * @since 2020-05-07
+ * @since 2020-05-09
  */
 @Service
 public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements DeptService {

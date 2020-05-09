@@ -31,4 +31,9 @@ public class TreeNode {
         this.spread = spread;
     }
 
+    public TreeNode(Integer id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
 }
