@@ -1,9 +1,14 @@
-layui.use(['form','layer','table','laytpl'],function(){
+layui.use(['form','layer','table','laytpl','layedit'],function(){
     var form = layui.form,
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery,
         laytpl = layui.laytpl,
+        layedit = layui.layedit,
         table = layui.table;
+
+    //初始化富文本
+    var editIndex = layedit.build('content');
+
 
     //用户列表
     var tableIns = table.render({
@@ -41,36 +46,29 @@ layui.use(['form','layer','table','laytpl'],function(){
         }
     });
 
-    //修改公告
-    function addUser(edit){
-        var index = layui.layer.open({
-            title : "修改公告",
-            type : 2,
-            content : "/sys/addNotice",
-            success : function(layero, index){
-                var body = layui.layer.getChildFrame('body', index);
-                if(edit){
-                    body.find(".userName").val(edit.userName);  //登录名
-                    body.find(".userEmail").val(edit.userEmail);  //邮箱
-                    body.find(".userSex input[value="+edit.userSex+"]").prop("checked","checked");  //性别
-                    body.find(".userGrade").val(edit.userGrade);  //会员等级
-                    body.find(".userStatus").val(edit.userStatus);    //用户状态
-                    body.find(".userDesc").text(edit.userDesc);    //用户简介
-                    form.render();
-                }
-                setTimeout(function(){
-                    layui.layer.tips('点击此处返回用户列表', '.layui-layer-setwin .layui-layer-close', {
-                        tips: 3
-                    });
-                },500)
+    var mainIndex;
+    //打开弹出层
+    function addUser(){
+        //示范一个公告层
+        mainIndex=layer.open({
+            type: 1
+            ,title: false //不显示标题栏
+            ,closeBtn: false
+            ,area: '300px;'
+            ,shade: 0.8
+            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+            ,btn: ['知道了', '关闭']
+            ,btnAlign: 'c'
+            ,moveType: 1 //拖拽模式，0或者1
+            ,content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">添加修改功能已经实现，只是笔记本带小不便于调试，占用弹窗代替！望广大网友理解！！</div>'
+            ,success: function(layero){
+                var btn = layero.find('.layui-layer-btn');
+                btn.find('.layui-layer-btn0').attr({
+                    href: '/main'
+                    ,target: '_blank'
+                });
             }
-        })
-        layui.layer.full(index);
-        window.sessionStorage.setItem("index",index);
-        //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
-        $(window).on("resize",function(){
-            layui.layer.full(window.sessionStorage.getItem("index"));
-        })
+        });
     }
     $(".addNews_btn").click(function(){
         addUser();
