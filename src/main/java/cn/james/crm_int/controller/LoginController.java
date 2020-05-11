@@ -86,4 +86,23 @@ public class LoginController {
     public String showIcon(){
         return "sys/icons";
     }
+
+    /**
+     * 转到部门管理
+     * @return
+     */
+    @RequestMapping("/sys/toDeptManager")
+    public String toDeptManager(){
+        return "sys/dept/deptManager";
+    }
+
+    @RequestMapping("/sys/toDeptRight")
+    public String toDeptRight(){
+        return "sys/dept/deptRight";
+    }
+
+    @RequestMapping("/sys/toDeptLeft")
+    public String toDeptLeft(){
+        return "sys/dept/deptLeft";
+    }
 }

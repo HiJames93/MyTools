@@ -53,10 +53,6 @@ public class SystemController {
             // 写入日志
 
             LogInfo entity=new LogInfo();
-//            QueryWrapper<Dept> queryWrapper = new QueryWrapper();
-//            // 获取did对应的name
-//            queryWrapper.eq(activerUser.getUser().getDid()+"",activerUser.getUser().getDid()+"");
-//            Dept dept = deptService.getOne(queryWrapper);
             //设置格式
             entity.setLoginName(activerUser.getUser().getRealname()+"-"+activerUser.getUser().getDid());
             entity.setLoginIp(WebUtils.getRequest().getRemoteAddr());

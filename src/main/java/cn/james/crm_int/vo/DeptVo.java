@@ -12,5 +12,4 @@ public class DeptVo extends Dept {
     private Integer page=1;
     private Integer limit=10;
 
-    private Integer[] ids;//接收多个id
 }

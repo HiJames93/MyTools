@@ -21,11 +21,6 @@ import java.io.Serializable;
 public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements DeptService {
 
     @Override
-    public boolean save(Dept entity) {
-        return super.save(entity);
-    }
-
-    @Override
     public boolean update(Dept entity, Wrapper<Dept> updateWrapper) {
         return super.update(entity, updateWrapper);
     }
